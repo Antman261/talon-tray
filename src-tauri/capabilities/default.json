@@ -1,0 +1,48 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default",
+    "opener:default",
+    "core:window:default",
+    "core:window:allow-start-dragging",
+    "fs:default",
+    {
+      "identifier": "fs:scope",
+      "allow": [
+        {
+          "path": "$TEMP/talon-tray/*"
+        },
+        {
+          "path": "$TEMP/talon-tray/talon-events/*"
+        }
+      ]
+    },
+    {
+      "identifier": "fs:allow-remove",
+      "allow": [
+        {
+          "path": "$TEMP/talon-tray/*"
+        },
+        {
+          "path": "$TEMP/talon-tray/talon-events/*"
+        }
+      ]
+    },
+    "shell:default",
+    {
+      "identifier": "shell:allow-execute",
+      "allow": [
+        {
+          "name": "talon-rpc",
+          "cmd": "bash",
+          "args": true
+        }
+      ]
+    }
+  ]
+}
