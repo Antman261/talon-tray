@@ -2,7 +2,7 @@ import { Signal, signal } from "@preact/signals";
 import { PhraseUttered } from "./talonEvents";
 
 export type TalonState = {
-    previousMic?: string;
+    lastMic?: string;
     mic: string;
     status: 'ASLEEP' | 'AWAKE';
 }

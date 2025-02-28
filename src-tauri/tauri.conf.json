@@ -15,8 +15,8 @@
         "title": "talon-tray",
         "width": 300,
         "height": 450,
-        "x": 2240,
-        "y": 970,
+        "x": 1400,
+        "y": 660,
         "decorations": false,
         "alwaysOnTop": true,
         "transparent": true

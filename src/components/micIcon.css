@@ -4,30 +4,18 @@
     width: 40px;
     height: 40px;
     border-radius: 20px;
-    background: #271b447f;
+    background: #271b44ca;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .meter-inner {
     max-width: 39px;
     max-height: 39px;
+    width: 39px;
+    height: 39px;
     border-radius: 20px;
-    background: #1e028ae6;
-}
-
-meter::-webkit-meter-bar {
-    background: #271b447f;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.6) inset;
-    max-width: 39px;
-    max-height: 39px;
-    /* border: 2px outset #271b447f; */
-    border-radius: 20px;
-}
-
-.mic-meter {
-    /* background: #172b3f00; */
-    height: 40px;
-    width: 40px;
+    background: #1e0095fb;
 }

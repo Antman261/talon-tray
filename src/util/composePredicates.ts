@@ -1,5 +1,5 @@
 import { TalonEvent } from "../talon/talonEvents";
 
-type EventPredicate = (e: TalonEvent) => boolean;
+type EventPredicate = <T>(e: TalonEvent) => T;
 
-export const composePredicates = (...fns: EventPredicate[]) => (e: TalonEvent) => fns.every((fn) => fn(e));
+export const composePredicates = <T>(...fns: EventPredicate[]) => (e: TalonEvent): T => fns.every((fn) => fn(e)) as T;

@@ -1,10 +1,12 @@
-export const memoise = (fn: () => unknown) => {
+import { Func } from "./Func";
+
+export const memoise = <Fn extends Func>(fn: Fn): Fn => {
     let wasCalled = false;
-    let result: unknown;
-    return () => {
+    let result: ReturnType<Fn>;
+    return (() => {
         if (wasCalled) return result;
-        result = fn();
+        result = fn() as ReturnType<Fn>;
         wasCalled = true;
         return result;
-    }
+    }) as Fn
 }

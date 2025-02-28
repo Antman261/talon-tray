@@ -1,8 +1,8 @@
-type Func = (...args: never) => unknown;
+import { Func } from "./Func";
 
 const debug = false;
 
-export const withDebugLogging = <Fn extends Func>(fn: Fn, name?: string): Fn => (((...args) => {
+export const withDebugLogging = ( name?: string) => <Fn extends Func>(fn: Fn): Fn => (((...args) => {
   const fnName = name ?? fn.name;
   debug && console.log(`fn->${fnName}->args:`, args);
   const result =  fn(...args)
