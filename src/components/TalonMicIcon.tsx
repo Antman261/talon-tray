@@ -13,7 +13,6 @@ export const TalonMicIcon = () => {
 const MicOnIcon = () => {
   const { toggleMic } = useTalonDispatch();
   const amp = amplitude.value;
-  console.log(amp)
   return (
     <div onClick={toggleMic} class="mic-meter">
       {<div class="meter-outer"><div class="meter-inner" style={`transform: scale(${amp})`}/></div>}

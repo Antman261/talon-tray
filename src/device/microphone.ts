@@ -1,6 +1,6 @@
 import { signal } from "@preact/signals";
 import { memoise } from "../util";
-import { offPollTick, onPollTick } from "../talon";
+import { offPollTick, onPollTick, state } from "../talon";
 import { onEvent } from "../talon/reducer";
 
 export const amplitude = signal(0);
@@ -10,6 +10,8 @@ export const stopMetering = async () => offPollTick(await configureMicrophone())
 
 const configureMicrophone = memoise(async () => {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+  const tracks = stream.getTracks().filter((track) => track.label !== state.value.mic);
+  tracks.forEach(stream.removeTrack);
   const audioContext = new AudioContext();
   const mediaStreamAudioSourceNode = audioContext.createMediaStreamSource(stream);
   const analyserNode = audioContext.createAnalyser();
@@ -28,15 +30,19 @@ const configureMicrophone = memoise(async () => {
 
 onEvent('MIC_SELECTED', ({ mic }) => mic === 'None' ? stopMetering() : startMetering());
 
-const max8Byte = 255;
+const max8Bit = 255;
 const avgAmplitude = (bufferLength: number) => {
-  const max = (bufferLength / 2) * max8Byte;
+  let max = 0;
+  for (let i = 0; i < bufferLength; i++) { max += weighLowFreqs(max8Bit, i); }
+  max = max / 2;
   return (data: Uint8Array): number => {
     let sum = 0;
-    for (let i = 0; i < bufferLength / 2; i++) { sum += data[i]; }
+    for (let i = 0; i < bufferLength; i++) { sum += weighLowFreqs(data[i], i); }
     return sum / max
   }
 }
+const weighLowFreqs = (amp: number, freqBinIdx: number) => amp / (freqBinIdx + 1);
+
 // const rootMeanSquare = (pcmData: Float32Array): number => {
 //   let sumSquares = 0.0;
 //   for (const amps of pcmData) { sumSquares += amps * amps; }
