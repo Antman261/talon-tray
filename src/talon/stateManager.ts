@@ -9,6 +9,5 @@ export type TalonState = {
 export type TalonContext = { state: Signal<TalonState>, commands: Signal<PhraseUttered[]> };
 
 export const state = signal<TalonState>({ mic: '', status: 'AWAKE' });
-export const commands = signal<PhraseUttered[]>([]);
-export const getContext = () => ({ state, commands });
+export const getContext = () => ({ state });
 

@@ -7,6 +7,7 @@
     "npm:@tauri-apps/cli@2": "2.2.7",
     "npm:@tauri-apps/plugin-fs@2.2": "2.2.0",
     "npm:@tauri-apps/plugin-opener@2": "2.2.5",
+    "npm:@tauri-apps/plugin-positioner@2.2": "2.2.0",
     "npm:@tauri-apps/plugin-shell@2.2": "2.2.0",
     "npm:preact@^10.25.1": "10.26.0",
     "npm:typescript@~5.6.2": "5.6.3",
@@ -442,6 +443,12 @@
         "@tauri-apps/api"
       ]
     },
+    "@tauri-apps/plugin-positioner@2.2.0": {
+      "integrity": "sha512-3JIWqV4U1US4nmM4PGmAHODq0ltkJ91MyANR033elKSSpX3AqKnVQnLz76xThBFHjChJrZwsXASpc2Inpu+cTg==",
+      "dependencies": [
+        "@tauri-apps/api"
+      ]
+    },
     "@tauri-apps/plugin-shell@2.2.0": {
       "integrity": "sha512-iC3Ic1hLmasoboG7BO+7p+AriSoqAwKrIk+Hpk+S/bjTQdXqbl2GbdclghI4gM32X0bls7xHzIFqhRdrlvJeaA==",
       "dependencies": [
@@ -723,6 +730,7 @@
         "npm:@tauri-apps/cli@2",
         "npm:@tauri-apps/plugin-fs@2.2",
         "npm:@tauri-apps/plugin-opener@2",
+        "npm:@tauri-apps/plugin-positioner@2.2",
         "npm:@tauri-apps/plugin-shell@2.2",
         "npm:preact@^10.25.1",
         "npm:typescript@~5.6.2",

@@ -12,14 +12,22 @@
   "app": {
     "windows": [
       {
-        "title": "talon-tray",
+        "label": "main",
+        "title": "Talon Tray",
         "width": 300,
-        "height": 450,
-        "x": 1400,
-        "y": 660,
+        "height": 80,
         "decorations": false,
         "alwaysOnTop": true,
         "transparent": true
+      },
+      {
+        "label": "commands",
+        "width": 300,
+        "height": 450,
+        "decorations": false,
+        "alwaysOnTop": true,
+        "transparent": true,
+        "url": "/command-history.html"
       }
     ],
     "macOSPrivateApi": true,

@@ -1,17 +1,23 @@
+import { getCurrentWebview } from '@tauri-apps/api/webview';
 import { talonState } from "./reducer";
-import { commands, state } from "./stateManager";
+import { state } from "./stateManager";
 import { TalonEvent, PhraseUttered } from "./talonEvents";
+import { isRecent } from './isRecent';
 
-const AGE_MS = 7000;
-const CMD_LIMIT = 10;
+const webview = getCurrentWebview();
+const events: TalonEvent[] = [];
 
 export const processEvents = (newEvents: TalonEvent[]): void => {
-    commands.value = newEvents.reduce(talonCommands, commands.value)
-      .filter(isRecent).slice(0, CMD_LIMIT);
-    state.value = newEvents.reduce(talonState, state.value);
+    events.splice(0);
+    for (const event of newEvents) {
+        if (isRecent(event) === false) continue;
+        if (isCommand(event)) {
+            webview.emitTo('commands', 'PHRASE_UTTERED', event)
+            continue;
+        }
+        events.push(event);
+    }
+    state.value = events.reduce(talonState, state.value);
 }
 
-const talonCommands = (cmds: PhraseUttered[], e: TalonEvent) => isCommand(e) ? cmds.concat(e) : cmds;
-
 const isCommand = (e: TalonEvent): e is PhraseUttered => e.type === 'PHRASE_UTTERED';
-const isRecent = (e: TalonEvent) => e.occurredAt > Date.now() - AGE_MS;
