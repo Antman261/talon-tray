@@ -23,17 +23,8 @@
         }
       ]
     },
-    {
-      "identifier": "fs:allow-remove",
-      "allow": [
-        {
-          "path": "$TEMP/talon-tray/*"
-        },
-        {
-          "path": "$TEMP/talon-tray/talon-events/*"
-        }
-      ]
-    },
+    "fs:allow-remove",
+    "fs:allow-temp-read-recursive",
     "shell:default",
     {
       "identifier": "shell:allow-execute",

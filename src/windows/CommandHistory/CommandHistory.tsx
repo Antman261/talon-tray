@@ -1,7 +1,9 @@
+import "./CommandHistory.css";
+
 import { signal } from "@preact/signals";
-import { PhraseUttered } from "../talon";
+import { PhraseUttered } from "../../talon";
 import { getCurrentWebview } from "@tauri-apps/api/webview";
-import { isRecent } from "../talon/isRecent";
+import { isRecent } from "../../talon/isRecent";
 
 export const commands = signal<PhraseUttered[]>([]);
 

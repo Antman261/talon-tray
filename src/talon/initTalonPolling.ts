@@ -1,12 +1,14 @@
 import { dispatchCommand } from "./dispatchCommand";
 import { memoise } from "../util/memoise";
-import { readTalonEvents } from "./readTalonEvents";
+import { initTalonEventListener, readTalonEvents } from "./readTalonEvents";
 import { Func } from "../util/Func";
 
-export const initTalonPolling = memoise(() => {
-  dispatchCommand('actions.user.sync_talon_tray_state()');
-  onPollTick(readTalonEvents);
-  setInterval(runTick, 16);
+export const initTalonPolling = memoise(async () => {
+  await dispatchCommand('actions.user.sync_talon_tray_state()');
+  await readTalonEvents();
+  await initTalonEventListener();
+  setInterval(runTick, 35);
+
 });
 
 const polledFuncs = new Set<Func>();

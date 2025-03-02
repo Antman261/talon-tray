@@ -10,6 +10,8 @@ export const stopMetering = async () => offPollTick(await configureMicrophone())
 
 const configureMicrophone = memoise(async () => {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+  console.log('tracks:', stream.getTracks().map((t) => t.label));
+  console.log('mic:', state.value.mic)
   const tracks = stream.getTracks().filter((track) => track.label !== state.value.mic);
   tracks.forEach(stream.removeTrack);
   const audioContext = new AudioContext();
@@ -38,13 +40,8 @@ const avgAmplitude = (bufferLength: number) => {
   return (data: Uint8Array): number => {
     let sum = 0;
     for (let i = 0; i < bufferLength; i++) { sum += weighLowFreqs(data[i], i); }
-    return sum / max
+    const amplitude = sum / max;
+    return amplitude > 0.16 ? amplitude : 0
   }
 }
-const weighLowFreqs = (amp: number, freqBinIdx: number) => amp / (freqBinIdx + 1);
-
-// const rootMeanSquare = (pcmData: Float32Array): number => {
-//   let sumSquares = 0.0;
-//   for (const amps of pcmData) { sumSquares += amps * amps; }
-//   return Math.sqrt(sumSquares / pcmData.length) * 5;
-// };
+const weighLowFreqs = (amp: number, freqBinIdx: number) => amp / (freqBinIdx === 0 ? 10 : freqBinIdx + 1);

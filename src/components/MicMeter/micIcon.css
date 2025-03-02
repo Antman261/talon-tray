@@ -2,7 +2,8 @@
     width: 40px;
     height: 40px;
     border-radius: 20px;
-    background: #271b44ca;
+    background: hsla(258, 30%, 45%, 0.4);
+    box-shadow: inset 1px 1px 1px #00000049;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,5 +16,5 @@
     width: 39px;
     height: 39px;
     border-radius: 20px;
-    background: #1e0095fb;
+    background: hsla(208, 95%, 33%, 0.984)
 }

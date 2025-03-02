@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "talon-tray",
+  "productName": "Talon Tray",
   "version": "0.1.0",
   "identifier": "com.talon-tray.app",
   "build": {
@@ -15,7 +15,7 @@
         "label": "main",
         "title": "Talon Tray",
         "width": 300,
-        "height": 80,
+        "height": 54,
         "decorations": false,
         "alwaysOnTop": true,
         "transparent": true
@@ -23,7 +23,7 @@
       {
         "label": "commands",
         "width": 300,
-        "height": 450,
+        "height": 370,
         "decorations": false,
         "alwaysOnTop": true,
         "transparent": true,

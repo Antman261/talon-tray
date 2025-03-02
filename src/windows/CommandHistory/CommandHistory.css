@@ -1,7 +1,12 @@
+@font-face {
+  font-family: "PlexMono";
+  src: url("/assets/IBMPlexMono-SemiBold-Latin1.woff2");
+}
+
 html,
 body {
   background: transparent;
-  margin: 0 0 72px 0;
+  margin: 0;
   scrollbar-width: none;
 }
 
@@ -15,12 +20,11 @@ html {
 body {
   display: flex;
   flex-direction: column;
-  color: #d5d4d4;
 }
 
 :root {
-  font-family: "BlexMono Nerd Font", Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-family: "PlexMono", Helvetica, Arial, sans-serif;
+  font-size: 16px;
   font-weight: 500;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -29,8 +33,8 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
-main {
-  margin: 0;
+.command-history {
+  margin: 0 0 6px 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -42,14 +46,25 @@ main {
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   color: #d5d4d4;
-  background-color: #161623e9;
+  background-color: hsla(265, 60%, 7.5%, 0.9);
   transition: border-color 0.25s;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-  margin-top: 4px;
-  animation: 6.9s ease 6s fadein;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  margin-top: 6px;
+  animation: 120ms linear slide-in,
+    0.5s ease-out 6.5s fadeout forwards;
 }
 
-@keyframes fadein {
+@keyframes slide-in {
+  0% {
+    transform: translateY(100%)
+  }
+
+  100% {
+    transform: translateY(0)
+  }
+}
+
+@keyframes fadeout {
   0% {
     opacity: 1;
   }

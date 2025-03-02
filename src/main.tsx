@@ -1,4 +1,7 @@
 import { render } from "preact";
-import App from "./App";
+import { ButtonDeck } from "./windows/ButtonDeck";
+import { initTalonPolling } from "./talon";
 
-render(<App />, document.getElementById("root")!);
+render(<ButtonDeck />, document.getElementById("root")!);
+
+initTalonPolling();

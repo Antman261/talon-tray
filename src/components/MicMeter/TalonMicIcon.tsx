@@ -1,8 +1,8 @@
 import "./micIcon.css";
-import { amplitude } from "../device/microphone";
-import { IconBtn } from "../elements/IconBtn";
-import { useTalonDispatch } from "../hooks/useTalonDispatch";
-import { state } from "../talon";
+import { amplitude } from "../../device/microphone";
+import { IconBtn } from "../../elements/IconBtn";
+import { useTalonDispatch } from "../../hooks/useTalonDispatch";
+import { state } from "../../talon";
 
 export const TalonMicIcon = () => {
   const { mic } = state.value;
@@ -12,10 +12,11 @@ export const TalonMicIcon = () => {
 
 const MicOnIcon = () => {
   const { toggleMic } = useTalonDispatch();
-  const amp = amplitude.value;
   return (
     <div onClick={toggleMic} class="mic-meter">
-      {<div class="meter-outer"><div class="meter-inner" style={`transform: scale(${amp})`}/></div>}
+      <div class="meter-outer">
+        <div class="meter-inner" style={`transform: scale(${amplitude.value})`}/>
+        </div>
     </div>
   )
 };

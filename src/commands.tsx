@@ -1,4 +1,4 @@
 import { render } from "preact";
-import App from "./CommandHistoryWindow";
+import { CommandHistory } from "./windows/CommandHistory";
 
-render(<App />, document.getElementById("root")!);
+render(<CommandHistory />, document.getElementById("root")!);
