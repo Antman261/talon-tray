@@ -1,0 +1,27 @@
+div.on-off-button {
+    font-size: 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+}
+
+div.on-off-button svg {
+    height: 22px;
+    margin-bottom: 3px;
+}
+
+div.on-off-button,
+svg {
+    transition: all 1s;
+    color: hsl(255, 94%, 79%);
+    fill: hsl(255, 94%, 79%);
+}
+
+div.on-off-button.off,
+div.on-off-button.off svg {
+    /* color: hsl(188, 51%, 40%); */
+    color: hsl(255, 10%, 45%);
+    fill: hsl(255, 10%, 45%);
+}

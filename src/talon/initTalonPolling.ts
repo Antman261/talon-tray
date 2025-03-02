@@ -12,10 +12,7 @@ export const initTalonPolling = memoise(async () => {
 });
 
 const polledFuncs = new Set<Func>();
+const runTick = () => { for (const fn of polledFuncs) { fn() } }
 
 export const onPollTick = <Fn extends Func>(fn: Fn) => polledFuncs.add(fn);
 export const offPollTick = <Fn extends Func>(fn: Fn) => polledFuncs.delete(fn);
-
-const runTick = () => {
-  for (const fn of polledFuncs) { fn() }
-}

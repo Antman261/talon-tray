@@ -2,21 +2,18 @@ import { BaseDirectory, readDir, readTextFile, DirEntry, remove, watchImmediate,
 import { TalonEvent } from "./talonEvents";
 import { processEvents } from "./processEvents";
 
-type CreateFileKind = { create?: WatchEventKindCreate };
+type CreateFile = { create?: WatchEventKindCreate };
 
 const talonEventsDir = 'talon-tray/talon-events';
 const tempDirOpt = { baseDir: BaseDirectory.Temp }
 const mockFilesCreated: Omit<WatchEvent, 'paths'> = { type: { create: { kind: 'file' }}, attrs: null };
 
-export const readTalonEvents = async () => {
-  await handleFileEvent(toFileEvent(await scanEventFolder()));
-}
+export const readTalonEvents = async () => onFileEvent(toFileEvent(await scanEventFolder()));
 
-const validKinds = ['any', 'file', 'other'] as (string | undefined)[];
-const isCreatedEvent = (event: WatchEvent): boolean => 
-  validKinds.includes((event.type as CreateFileKind).create?.kind)
+const kinds: (string | undefined)[] = ['any', 'file', 'other'];
+const isCreatedEvent = ({type}: WatchEvent) => kinds.includes((<CreateFile>type).create?.kind);
 
-const handleFileEvent = async (fileEvent: WatchEvent) => {
+const onFileEvent = async (fileEvent: WatchEvent) => {
   if (isCreatedEvent(fileEvent) === false) return;
   const events = await loadEventsFromDisk(fileEvent.paths);
   deleteEventFiles(fileEvent.paths);
@@ -24,7 +21,7 @@ const handleFileEvent = async (fileEvent: WatchEvent) => {
 }
 
 export const initTalonEventListener = async () => {
-  await watchImmediate(talonEventsDir, handleFileEvent, tempDirOpt)
+  await watchImmediate(talonEventsDir, onFileEvent, tempDirOpt)
 }
 
 const scanEventFolder = async () => (await readDir(talonEventsDir, tempDirOpt)).map(toPath);
@@ -38,6 +35,7 @@ const toEvent = async (path: string): Promise<TalonEvent | undefined> => {
   try {
     return JSON.parse((await readTextFile(path, tempDirOpt)).trim());
   } catch(error) {
+    if (error?.toString().includes('not exist')) return;
     console.error('Error parsing talon event:', { error, path });
   }
 };

@@ -10,8 +10,6 @@ export const stopMetering = async () => offPollTick(await configureMicrophone())
 
 const configureMicrophone = memoise(async () => {
   const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-  console.log('tracks:', stream.getTracks().map((t) => t.label));
-  console.log('mic:', state.value.mic)
   const tracks = stream.getTracks().filter((track) => track.label !== state.value.mic);
   tracks.forEach(stream.removeTrack);
   const audioContext = new AudioContext();

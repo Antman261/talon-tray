@@ -40,6 +40,6 @@ body {
   justify-content: space-evenly;
   align-items: center;
   /* background: #060628f1; */
-  background: hsla(265, 90%, 20%, 0.1);
+  background: hsla(224, 85%, 24%, 0.5);
   border-radius: 9px;
 }

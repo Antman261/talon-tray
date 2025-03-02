@@ -2,7 +2,7 @@
     width: 40px;
     height: 40px;
     border-radius: 20px;
-    background: hsla(258, 30%, 45%, 0.4);
+    background: hsla(255, 94%, 79%, 0.714);
     box-shadow: inset 1px 1px 1px #00000049;
     display: flex;
     justify-content: center;
@@ -16,5 +16,4 @@
     width: 39px;
     height: 39px;
     border-radius: 20px;
-    background: hsla(208, 95%, 33%, 0.984)
 }
