@@ -3,6 +3,7 @@ import { amplitude } from "../../device/microphone";
 import { IconBtn } from "../../elements/IconBtn";
 import { useTalonDispatch } from "../../hooks/useTalonDispatch";
 import { state } from "../../talon";
+import { OnOffBtn } from "../../elements/OnOffBtn";
 
 export const TalonMicIcon = () => {
   const { mic } = state.value;
@@ -25,7 +26,9 @@ const MicOnIcon = () => {
     </div>
   )
 };
+
+
 const MicOffIcon = () => {
   const { toggleMic } = useTalonDispatch();
-  return <IconBtn onClick={toggleMic}>MIC OFF</IconBtn>
+  return <OnOffBtn onClick={toggleMic} on={false} icon="Mic"/>
 };
