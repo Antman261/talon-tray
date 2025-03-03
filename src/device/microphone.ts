@@ -2,23 +2,47 @@ import { signal } from "@preact/signals";
 import { memoise } from "../util";
 import { offPollTick, onPollTick, state } from "../talon";
 import { onEvent } from "../talon/reducer";
+import { avgAmplitude } from "./audioAnalysis";
 
 export const amplitude = signal(0);
 
-export const startMetering = async () => onPollTick(await configureMicrophone());
-export const stopMetering = async () => offPollTick(await configureMicrophone());
+export const stopMetering = async () => offPollTick(await initMetering());
 
-const configureMicrophone = memoise(async () => {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-  const tracks = stream.getTracks().filter((track) => track.label !== state.value.mic);
-  tracks.forEach(stream.removeTrack);
-  const audioContext = new AudioContext();
-  const mediaStreamAudioSourceNode = audioContext.createMediaStreamSource(stream);
-  const analyserNode = audioContext.createAnalyser();
-  analyserNode.fftSize = 32;
-  analyserNode.maxDecibels = 0;
-  mediaStreamAudioSourceNode.connect(analyserNode);
+const deviceConstraints = { audio: { echoCancellation: false } };
+const audioCxt = new AudioContext({ latencyHint: 'playback' });
+let analyserNode: AnalyserNode;
+let mic: string | undefined;
+let stream: MediaStream | undefined;
+let mediaStreamAudioSourceNode: MediaStreamAudioSourceNode | undefined;
+let isUpdating = false;
 
+const meterActiveMic = async () => {
+    if (isUpdating) return;
+    isUpdating = true;
+    stream = await navigator.mediaDevices.getUserMedia(deviceConstraints);
+    const startingTracks = stream.getAudioTracks();
+    const removedTracks = startingTracks.filter(inactiveMicTracks(state.value.mic));
+    try {
+      removedTracks.forEach(stream.removeTrack);
+    } catch(error) {
+      console.error('Error removing tracks:', error)
+    }
+    mediaStreamAudioSourceNode = audioCxt.createMediaStreamSource(stream);
+    mediaStreamAudioSourceNode.connect(analyserNode);
+    mic = state.value.mic;
+    isUpdating = false;
+}
+
+const configureAudioContext = async () => {
+  analyserNode = new AnalyserNode(audioCxt, { fftSize: 32, maxDecibels: 0 });
+  if (state.value.mic !== mic) { await meterActiveMic(); }
+  stream?.addEventListener('addtrack', meterActiveMic);
+  stream?.addEventListener('removetrack', meterActiveMic);
+
+}
+
+const initMetering = memoise(async () => {
+  await configureAudioContext();
   const bufferLength = analyserNode.frequencyBinCount;
   const calcAvgAmplitude = avgAmplitude(bufferLength);
   const data = new Uint8Array(bufferLength);
@@ -28,18 +52,16 @@ const configureMicrophone = memoise(async () => {
   };
 });
 
+let updateAmplitude: (() => void) | undefined; 
+let isInitializing = false; 
+const startMetering = async () => {
+  if (updateAmplitude) return onPollTick(updateAmplitude);;
+  isInitializing = true;
+  updateAmplitude = await initMetering();
+  onPollTick(updateAmplitude);
+  isInitializing = false;
+}
+
 onEvent('MIC_SELECTED', ({ mic }) => mic === 'None' ? stopMetering() : startMetering());
 
-const max8Bit = 255;
-const avgAmplitude = (bufferLength: number) => {
-  let max = 0;
-  for (let i = 0; i < bufferLength; i++) { max += weighLowFreqs(max8Bit, i); }
-  max = max / 2;
-  return (data: Uint8Array): number => {
-    let sum = 0;
-    for (let i = 0; i < bufferLength; i++) { sum += weighLowFreqs(data[i], i); }
-    const amplitude = sum / max;
-    return amplitude > 0.16 ? amplitude : 0
-  }
-}
-const weighLowFreqs = (amp: number, freqBinIdx: number) => amp / (freqBinIdx === 0 ? 10 : freqBinIdx + 1);
+const inactiveMicTracks = (mic: string) => ({label}: MediaStreamTrack) => label !== mic;

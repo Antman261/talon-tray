@@ -25,3 +25,13 @@ div.on-off-button.off svg {
     color: hsl(255, 10%, 45%);
     fill: hsl(255, 10%, 45%);
 }
+
+@media (prefers-color-scheme: light) {
+
+    div.on-off-button.off,
+    div.on-off-button.off svg {
+        /* color: hsl(188, 51%, 40%); */
+        color: hsl(255, 10%, 65%);
+        fill: hsl(255, 10%, 65%);
+    }
+}

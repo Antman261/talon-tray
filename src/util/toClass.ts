@@ -1,0 +1,1 @@
+export const toClass = (...args: (string | undefined)[]): string => args.filter((s): s is string => !!s).join(' ')

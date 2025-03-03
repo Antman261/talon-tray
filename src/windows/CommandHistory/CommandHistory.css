@@ -50,6 +50,7 @@ body {
   transition: border-color 0.25s;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   margin-top: 6px;
+  /* backdrop-filter: blur(10px); does not currently work */
   animation: 120ms linear slide-in,
     0.5s ease-out 6.5s fadeout forwards;
 }

@@ -2,13 +2,16 @@ import "./OnOffBtn.css"
 import { FunctionComponent } from "preact";
 import { OnClickProp } from "./OnClickProp";
 
-type Props = OnClickProp & { on: boolean, icon?: 'Power' | 'Mic' };
-export const OnOffBtn: FunctionComponent<Props> = ({children, onClick, on, icon}) => (
-  <div onClick={onClick} class={`on-off-button ${on ? 'on' : 'off'}`}>
+type Props = OnClickProp & { on: boolean, icon?: 'Power' | 'Mic', class?: string };
+export const OnOffBtn: FunctionComponent<Props> = ({ children, onClick, on, icon, ...p }) => {
+  const classes: string = ['on-off-button', on ? 'on' : 'off'].concat(p.class ?? []).join(' ');
+  return (
+  <div onClick={onClick} class={classes}>
     <Icon icon={icon ?? 'Power'}/>
     <span>{children}</span>
   </div>
 );
+}
 
 const PowerIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -28,5 +31,4 @@ const icons = {
   Power: PowerIcon,
   Mic: MicOff,
 } as const ;
-const defaultProps: Pick<Props, 'icon'> = {icon: 'Power'}
-const Icon: FunctionComponent<Required<Pick<Props, 'icon'>>> = ({icon} = defaultProps) => icons[icon]();
+const Icon: FunctionComponent<Required<Pick<Props, 'icon'>>> = ({ icon }) => icons[icon]();
