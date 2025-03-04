@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, res } from "vite";
 import preact from "@preact/preset-vite";
 
 // @ts-expect-error process is a nodejs global
@@ -27,6 +27,14 @@ export default defineConfig(async () => ({
     watch: {
       // 3. tell vite to ignore watching `src-tauri`
       ignored: ["**/src-tauri/**"],
+    },
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: 'index.html',
+        commands: 'command-history.html',
+      },
     },
   },
 }));

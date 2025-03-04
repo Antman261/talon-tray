@@ -53,13 +53,10 @@ const initMetering = memoise(async () => {
 });
 
 let updateAmplitude: (() => void) | undefined; 
-let isInitializing = false; 
 const startMetering = async () => {
   if (updateAmplitude) return onPollTick(updateAmplitude);;
-  isInitializing = true;
   updateAmplitude = await initMetering();
   onPollTick(updateAmplitude);
-  isInitializing = false;
 }
 
 onEvent('MIC_SELECTED', ({ mic }) => mic === 'None' ? stopMetering() : startMetering());
