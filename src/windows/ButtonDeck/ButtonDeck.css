@@ -44,6 +44,14 @@ body {
   border-radius: 9px;
   transition: background-color 1s ease-out;
 }
+.button-deck > div:first-child {
+  margin-right: auto;
+  margin-left: 25px;
+}
+.button-deck > div:last-child {
+  margin-left: auto;
+  margin-right: 25px;
+}
 .button-deck .bg-off,
 .bg-off {
   background: hsla(224, 47%, 11%, 0.682);

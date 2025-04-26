@@ -24,7 +24,7 @@ body {
 
 :root {
   font-family: "PlexMono", Helvetica, Arial, sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -44,15 +44,15 @@ body {
 .command {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  padding: 0.4em;
   color: #d5d4d4;
   background-color: hsla(265, 60%, 7.5%, 0.9);
   transition: border-color 0.25s;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
-  margin-top: 6px;
+  margin-top: 3px;
   /* backdrop-filter: blur(10px); does not currently work */
   animation: 120ms linear slide-in,
-    0.5s ease-out 6.5s fadeout forwards;
+    0.5s ease-out 11.5s fadeout forwards;
 }
 
 @keyframes slide-in {

@@ -1,4 +1,4 @@
-import { TalonEvent } from "./talonEvents";
+import { TalonEvent } from './talonEvents';
 
-const AGE_MS = 7000;
+const AGE_MS = 12000;
 export const isRecent = (e: TalonEvent) => e.occurredAt > Date.now() - AGE_MS;

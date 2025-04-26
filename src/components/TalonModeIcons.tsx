@@ -12,7 +12,6 @@ const Square: FC = ({ children }) => <div class="icon-square">{children}</div>;
 
 const modeIcons: Record<string, JSX.Element | string> = {
   STREAM: <Twitch />,
-  COMMAND: <Square>C</Square>,
   CODE: (
     <Square>
       <CodeIcon />
@@ -28,8 +27,7 @@ const ModeIcon = (name: string) => {
   return (
     <div class="deck-item deck-item-labeled">
       {modeIcons[name] ?? GenericMode(name)}
-
-      <span class={'title-case'}>{name}</span>
+      <span>{name}</span>
     </div>
   );
 };
