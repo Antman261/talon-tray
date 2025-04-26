@@ -9,6 +9,13 @@
     "preview": "vite preview",
     "tauri": "tauri"
   },
+  "prettier": {
+    "lineWidth": 110,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": true,
+    "proseWrap": "never"
+  },
   "dependencies": {
     "@preact/signals": "^2.0.1",
     "@tauri-apps/plugin-fs": "~2.2.0",

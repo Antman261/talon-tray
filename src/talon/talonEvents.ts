@@ -1,8 +1,15 @@
-type EventBase = {occurredAt: number;}
-export type PhraseUttered = { type: 'PHRASE_UTTERED', phrase: string } & EventBase;
-export type MicSelected = { type: 'MIC_SELECTED'; mic: string } & EventBase
-export type Awoken = { type: 'AWOKEN'; } & EventBase
-export type Drowsed = { type: 'DROWSED'; } & EventBase
+type EventBase = { occurredAt: number };
+export type PhraseUttered = {
+  type: 'PHRASE_UTTERED';
+  phrase: string;
+} & EventBase;
+export type MicSelected = { type: 'MIC_SELECTED'; mic: string } & EventBase;
+export type Awoken = { type: 'AWOKEN' } & EventBase;
+export type Drowsed = { type: 'DROWSED' } & EventBase;
+export type ModesChanged = {
+  type: 'MODES_CHANGED';
+  modes: string[];
+} & EventBase;
 
 export type TalonEvent = PhraseUttered | MicSelected | Awoken | Drowsed;
 export type EventMap = {
@@ -10,5 +17,6 @@ export type EventMap = {
   MIC_SELECTED: MicSelected;
   AWOKEN: Awoken;
   DROWSED: Drowsed;
-}
+  MODES_CHANGED: ModesChanged;
+};
 export type EventType = keyof EventMap;

@@ -23,6 +23,7 @@
       },
       {
         "label": "commands",
+        "parent": "main",
         "width": 300,
         "height": 370,
         "decorations": false,

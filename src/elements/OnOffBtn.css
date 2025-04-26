@@ -12,9 +12,8 @@ div.on-off-button svg {
     margin-bottom: 3px;
 }
 
-div.on-off-button,
-svg {
-    transition: all 1s;
+div.on-off-button {
+    transition: all 1s; 
     color: hsl(255, 94%, 79%);
     fill: hsl(255, 94%, 79%);
 }
