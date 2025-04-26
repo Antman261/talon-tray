@@ -5,3 +5,5 @@ export * from './withDebugLogging';
 export * from './compose';
 export * from './callWith';
 export * from './toClass';
+export * from './from';
+export * from './OfUnion';

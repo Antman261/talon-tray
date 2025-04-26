@@ -1,19 +1,18 @@
+import { OfKind } from './OfUnion';
 type Mapper = (item: any) => any;
-type Operation<T> = RemoveOp<T> | AddOp<T> | MapOp;
-type OpKind = Operation<any>['kind'];
-type AddOp<T> = { kind: 'add'; args: T[] };
-type RemoveOp<T> = { kind: 'remove'; args: T[] };
-type MapOp = { kind: 'map'; args: Mapper[] };
-type OpSet<T> = { add: T[]; remove: T[]; map: Mapper[] };
+type Ops<T> = Op<'add', T> | Op<'remove', T> | Op<'map', Mapper>;
+type Op<K extends OpKind, A> = { kind: K; args: A[] };
+type OpKind = 'add' | 'remove' | 'map';
+type OpSet<T> = { [key in OpKind]: OfKind<Ops<T>, key>['args'] };
 type Plan<T> = OpSet<T>[];
-type OpFn<T> = (a: T[], i: number) => unknown;
+type OpFn<A> = (a: A[], i: number) => unknown;
 type Operator<T> = { add: OpFn<T>; remove: OpFn<T>; map: OpFn<Mapper> };
 
 export const from = <T>(arr: T[], copy = false) => {
   const target = copy ? [...arr] : arr;
-  const ops: Operation<T>[] = [];
+  const ops: Ops<T>[] = [];
   const makeOp =
-    <A extends T | Mapper>(kind: OpKind) =>
+    <A>(kind: OpKind) =>
     (...args: A[]) => {
       const op = ops.at(-1); // @ts-expect-error
       op?.kind === kind ? op.args.push(...args) : ops.push({ kind, args });
@@ -41,7 +40,6 @@ export const from = <T>(arr: T[], copy = false) => {
   };
   return wrapper;
 };
-
 export const fromCopyOf = <T>(arr: T[]) => from(arr, true);
 
 function getOperator<T>(ar: T[]): Operator<T> {
@@ -63,7 +61,7 @@ function getOperator<T>(ar: T[]): Operator<T> {
   };
 }
 
-function generatePlan<T>(ops: Operation<T>[]): Plan<T> {
+function generatePlan<T>(ops: Ops<T>[]): Plan<T> {
   const plan: Plan<T> = [];
   for (const op of ops) {
     const needsNewStep = plan.at(-1)?.map.length !== 0;
