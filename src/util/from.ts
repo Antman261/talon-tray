@@ -1,41 +1,37 @@
 type Mapper = (item: any) => any;
 type Operation<T> = RemoveOp<T> | AddOp<T> | MapOp;
+type OpKind = Operation<any>['kind'];
 type AddOp<T> = { kind: 'add'; args: T[] };
 type RemoveOp<T> = { kind: 'remove'; args: T[] };
 type MapOp = { kind: 'map'; args: Mapper[] };
-type OpSet<T> = { add?: AddOp<T>; remove?: RemoveOp<T>; map?: MapOp };
+type OpSet<T> = { add: T[]; remove: T[]; map: Mapper[] };
 type Plan<T> = OpSet<T>[];
-type OpFn<T> = (a: T[] | undefined, i: number) => unknown;
+type OpFn<T> = (a: T[], i: number) => unknown;
 type Operator<T> = { add: OpFn<T>; remove: OpFn<T>; map: OpFn<Mapper> };
 
 export const from = <T>(arr: T[], copy = false) => {
   const target = copy ? [...arr] : arr;
   const ops: Operation<T>[] = [];
-  return {
-    remove(...args: T[]) {
-      ops.push(makeRemoveOp(args));
-      return this;
-    },
-    add(...args: T[]) {
-      ops.push(makeAddOp(args));
-      return this;
-    },
-    map(arg: Mapper) {
-      const op = ops.at(-1);
-      op?.kind === 'map' ? op.args.push(arg) : ops.push(makeMapOp(arg));
-      return this;
-    },
+  const makeOp =
+    <A extends T | Mapper>(kind: OpKind) =>
+    (...args: A[]) => {
+      const op = ops.at(-1); // @ts-expect-error
+      op?.kind === kind ? op.args.push(...args) : ops.push({ kind, args });
+      return wrapper;
+    };
+  const wrapper = {
+    remove: makeOp<T>('remove'),
+    add: makeOp<T>('add'),
+    map: makeOp<Mapper>('map'),
     result() {
       const isNoop = target.length === 0 || ops.length === 0;
       if (isNoop) return target;
       const operator = getOperator(target);
-      const plan = generatePlan(ops);
-      for (let stepIdx = 0; stepIdx < plan.length; stepIdx++) {
-        const step = plan[stepIdx];
-        operator.add(step.add?.args, 0);
-        if (step.remove || step.map) {
-          const remover = (i: number) => operator.remove(step.remove?.args, i);
-          const mapper = (i: number) => operator.map(step.map?.args, i);
+      for (const step of generatePlan(ops)) {
+        operator.add(step.add, 0);
+        if (step.remove.length || step.map.length) {
+          const remover = (i: number) => operator.remove(step.remove, i);
+          const mapper = (i: number) => operator.map(step.map, i);
           const operate = (i: number) => remover(i) || mapper(i);
           for (let i = target.length - 1; i > -1; i--) operate(i);
         }
@@ -43,47 +39,39 @@ export const from = <T>(arr: T[], copy = false) => {
       return target;
     },
   };
+  return wrapper;
 };
 
 export const fromCopyOf = <T>(arr: T[]) => from(arr, true);
 
-const makeMapOp = (arg: Mapper): MapOp => ({ kind: 'map', args: [arg] });
-const makeAddOp = <T>(args: T[]): AddOp<T> => ({ kind: 'add', args });
-const makeRemoveOp = <T>(args: T[]): RemoveOp<T> => ({ kind: 'remove', args });
-
 function getOperator<T>(ar: T[]): Operator<T> {
-  const mappers = new Map<Mapper[], Mapper>();
+  const mxs = new Map<Mapper[], Mapper>();
   return {
     add: (args) => ar.push(...(args ?? [])),
     remove: (args, i) => args?.includes(ar[i]) && ar.splice(i, 1).length,
     map(args, idx) {
-      if (args === undefined) return;
-      let mapper =
-        mappers.get(args) ??
+      if (args.length === 0) return;
+      const mx =
+        mxs.get(args) ??
         args.reduce(
-          // TODO: optimize
-          (p, c) => (i) => c(p(i)),
-          (i) => i
+          (p, c) => (it) => c(p(it)),
+          (it) => it
         );
-      mappers.set(args, mapper);
-      ar[idx] = mapper(ar[idx]);
+      mxs.set(args, mx);
+      ar[idx] = mx(ar[idx]);
     },
   };
 }
 
 function generatePlan<T>(ops: Operation<T>[]): Plan<T> {
-  const plan: Plan<T> = [{}];
-  for (let i = 0; i < ops.length; ++i) {
-    const op = ops[i];
+  const plan: Plan<T> = [];
+  for (const op of ops) {
+    const needsNewStep = plan.at(-1)?.map.length !== 0;
+    if (needsNewStep) plan.push({ add: [], remove: [], map: [] });
     const opSet = plan.at(-1)!;
-    if (op.kind === 'add')
-      opSet.add ? opSet.add.args.push(...op.args) : (opSet.add = op);
-    if (op.kind === 'remove')
-      opSet.remove ? opSet.remove.args.push(...op.args) : (opSet.remove = op);
-    if (op.kind === 'map') {
-      opSet.map = op;
-      i < ops.length - 1 && plan.push({});
-    }
+    if (op.kind === 'add') opSet.add.push(...op.args);
+    if (op.kind === 'remove') opSet.remove.push(...op.args);
+    if (op.kind === 'map') opSet.map.push(...op.args);
   }
   return plan;
 }
