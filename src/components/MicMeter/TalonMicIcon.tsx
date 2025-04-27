@@ -14,7 +14,7 @@ export const TalonMicIcon = () => {
     </div>
   );
 };
-const toHsla = (amp: number) => `hsla(${135 - amp * 100}, 94%, 79%, 0.9)`;
+const toHsla = (amp: number) => `hsla(${135 - amp * 100}, 100%, 82%, 1)`;
 const toStyle = (amp: number) =>
   `transform: scale(${amp});
    background: ${toHsla(amp)};

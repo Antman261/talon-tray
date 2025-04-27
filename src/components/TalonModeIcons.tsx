@@ -5,7 +5,11 @@ import { modes } from '../talon';
 import { CodeIcon } from '../elements/icons/CodeIcon';
 
 export const TalonModeIcons = () => {
-  return <div class="mode-icons deck-section">{modes.value.map(ModeIcon)}</div>;
+  return (
+    <div class="mode-icons deck-section deck-section-wide">
+      {modes.value.map(ModeIcon)}
+    </div>
+  );
 };
 
 const Square: FC = ({ children }) => <div class="icon-square">{children}</div>;

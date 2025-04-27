@@ -4,8 +4,9 @@
 
 .mic-icon-wrapper {
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    min-width: 35px;
+    height: 35px;
 }
 
 .mic-icon {
@@ -30,10 +31,10 @@
 }
 
 .meter-outer {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 20px;
-    background: hsla(255, 94%, 79%, 0.714);
+    background: #b097fc;
     box-shadow: inset 1px 1px 1px #00000049;
     display: flex;
     justify-content: center;
@@ -42,9 +43,9 @@
 }
 
 .meter-inner {
-    max-width: 39px;
-    max-height: 39px;
-    width: 39px;
-    height: 39px;
+    max-width: 36px;
+    max-height: 36px;
+    width: 36px;
+    height: 36px;
     border-radius: 20px;
 }

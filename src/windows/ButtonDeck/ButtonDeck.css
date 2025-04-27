@@ -37,27 +37,30 @@ body {
   height: 40pt;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: right;
   align-items: center;
   /* background: #060628f1; */
   background: hsla(224, 85%, 24%, 0.502);
   border-radius: 9px;
   transition: background-color 1s ease-out;
+  gap: 15px;
+  padding: 0 15px 0 5px;
 }
-.button-deck > div:first-child {
-  margin-right: auto;
-  margin-left: 25px;
+.button-deck > .deck-item, .button-deck > .deck-section > .deck-item {
+  width: 40px;
 }
-.button-deck > div:last-child {
-  margin-left: auto;
-  margin-right: 25px;
+.button-deck> * {
+  height: 40px;
 }
-.button-deck .bg-off,
-.bg-off {
-  background: hsla(224, 47%, 11%, 0.682);
-}.button-deck .bg-warn,
-.bg-warn {
-  background: hsla(344, 85%, 24%, 0.682);
+.button-deck > .deck-section.deck-section-wide {
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  flex: 1;
+  gap: 0;
+  margin-right: -10px;
 }
 
 .deck-section {
@@ -66,14 +69,21 @@ body {
   height: 40px;
   color: #b097fc;
 }
+
+.button-deck .bg-off,
+.bg-off {
+  background: hsla(224, 47%, 11%, 0.682);
+}.button-deck .bg-warn,
+.bg-warn {
+  background: hsla(344, 85%, 24%, 0.682);
+}
+
 .deck-item {
   display: inline-flex;
   text-align: center;
   align-items: center;
-  width: 42px;
-  height: 42px;
-  word-wrap: break-word;
-  /* overflow: clip; */
+  width: 40px;
+  height: 40px;
 }
 .deck-item svg {
   height: 22px
@@ -81,24 +91,34 @@ body {
 .icon-square {
   color: #092571;
   background: #b097fc;
-  width: 22px;
+  width: 28px;
   display: inline-flex;
-  height: 22px;
+  height: 25px;
   justify-content: center;
   align-items: center;
   border-radius: 4px;
   font-size: 1.6em;
 }
 .icon-square svg {
-  height: 13px;
+  height: 15px;
 }
 .deck-item-labeled {
   display: flex;
   flex-direction: column;
   justify-content: center;
   font-size: 0.6em;
-  gap: 6px;
+  gap: 5px;
 }
 .title-case {
   text-transform: capitalize;
 }
+.vertical-bar {
+  display: inline-block;
+  border-right: 1px groove hsla(255, 94%, 79%, 0.149);
+  height: 54px;
+}
+
+.mode-icons .deck-section .deck-section-wide {
+  gap: 2px;
+}
+

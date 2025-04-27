@@ -4,6 +4,7 @@ import { isAwake, isMixedMode } from '../../talon';
 import { TalonMicIcon } from '../../components/MicMeter/TalonMicIcon';
 import { TalonStatusIcon } from '../../components/TalonStatusIcon';
 import { TalonModeIcons } from '../../components/TalonModeIcons';
+import { VerticalBar } from '../../elements/VerticalBar';
 
 export const ButtonDeck = () => {
   const classes = toClass(
@@ -13,9 +14,10 @@ export const ButtonDeck = () => {
   );
   return (
     <div data-tauri-drag-region class={classes}>
-      <TalonStatusIcon />
       <TalonModeIcons />
+      <VerticalBar />
       <TalonMicIcon />
+      <TalonStatusIcon />
     </div>
   );
 };
