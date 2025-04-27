@@ -14,9 +14,6 @@ export const state = signal<TalonState>({
   modes: [],
 });
 export const isMicActive = computed(() => state.value.mic !== 'None');
-export const isStreamMode = computed(() =>
-  state.value.modes.includes('user.stream')
-);
 export const isAwake = computed(() => state.value.status === 'AWAKE');
 export const modes = computed(() => {
   const calcModes = fromCopyOf(state.value.modes).remove('sleep', 'command');
@@ -27,6 +24,7 @@ const _isMixedMode = () =>
   state.value.modes.includes('dictation') &&
   state.value.modes.includes('command');
 export const isMixedMode = computed(_isMixedMode);
+export const isStreamMode = computed(() => modes.value.includes('STREAM'));
 
 const toModeName = (name: string): string =>
   name.replace('user.', '').replace('_mode', '').toUpperCase();
