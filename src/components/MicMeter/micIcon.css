@@ -1,14 +1,18 @@
 .mic-icon {
+    transition: transform 0.5s;
     transition: all 0.7s;
 }
 
 .mic-icon-wrapper {
+    transition: opacity 2s;
     position: relative;
     width: 35px;
     min-width: 35px;
     height: 35px;
 }
-
+.bg-off.bg-stream .mic-icon-wrapper {
+    opacity: 0.6;
+}
 .mic-icon {
     position: absolute;
 }

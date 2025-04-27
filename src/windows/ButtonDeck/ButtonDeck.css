@@ -54,18 +54,23 @@ body {
 .bg-off {
   background: hsla(224, 47%, 11%, 0.682);
 }
-.bg-off.bg-opaque {
-  background: hsla(224, 47%, 11%);
+.bg-off.bg-stream {
+  background: hsla(224, 27%, 11%);
+  opacity: 0.8;
 }
 .bg-warn {
   background: hsla(344, 85%, 24%, 0.682);
 }
-.bg-warn.bg-opaque {
+.bg-warn.bg-stream {
   background: hsla(344, 85%, 24%);
 }
 
+.bg-off.bg-stream .deck-item {
+  opacity: 0.6;
+}
 
 .button-deck > .deck-item, .button-deck > .deck-section > .deck-item {
+  transition: opacity 2s;
   width: 40px;
 }
 .button-deck> * {
