@@ -18,9 +18,6 @@ const withWiretaps =
   (state, event) => {
     const updated = reduce(state, event);
     [...getTaps(event.type)].forEach(callWith(event, updated));
-    if (event.type === 'MODES_CHANGED') {
-      console.log(event);
-    }
     return updated;
   };
 
