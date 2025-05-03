@@ -1,7 +1,7 @@
-# Tauri + Preact + Typescript
+# Talon Tray
 
-This template should help get you started developing with Tauri, Preact and Typescript in Vite.
+A tiny [Tauri](https://tauri.app) desktop application displaying HUD information with [TalonVoice](https://talonvoice.com).
 
-## Recommended IDE Setup
+I built this application primarily for myself. It is unlikely to suit most people, and _may_ work on other platforms, but has only been tested on macOS. However I wanted to share it in case it's useful or inspires a better idea in someone.
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+![Talon Tray image](./talon-tray.png)
