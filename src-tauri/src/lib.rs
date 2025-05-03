@@ -1,3 +1,6 @@
+mod socket;
+
+use socket::start_socket_server;
 use tauri::Manager;
 use window_vibrancy::*;
 
@@ -13,6 +16,9 @@ pub fn run() {
             let monitor = app.primary_monitor().unwrap().unwrap();
             let size = monitor.size();
             let scale = monitor.scale_factor() as u32;
+
+            let app_handle = app.handle().clone();
+            std::thread::spawn(move || start_socket_server(&app_handle));
 
             let main_window = Manager::get_webview_window(app, "main")
                 .unwrap()

@@ -11,26 +11,12 @@
     "opener:default",
     "core:window:default",
     "core:window:allow-start-dragging",
-    "fs:default",
-    {
-      "identifier": "fs:scope",
-      "allow": [
-        {
-          "path": "$TEMP/talon-tray/*"
-        },
-        {
-          "path": "$TEMP/talon-tray/talon-events/*"
-        }
-      ]
-    },
-    "fs:allow-remove",
-    "fs:allow-temp-read-recursive",
     "shell:default",
     {
       "identifier": "shell:allow-execute",
       "allow": [
         {
-          "name": "talon-rpc",
+          "name": "bash",
           "cmd": "bash",
           "args": true
         }
