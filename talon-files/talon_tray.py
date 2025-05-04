@@ -87,7 +87,7 @@ type NotifKind = Literal["success", "info", "alert", "warn"]
 class Actions:
     def send_tray_notification(msg: str, kind: NotifKind):
         """Display Talon Tray notification"""
-        dispatch_event({"type": "NOTIFICATION", "kind": kind, "msg": msg})
+        dispatch_event({"type": "NOTIFIED", "kind": kind, "msg": msg})
 
     def select_microphone(name: str):
         """Select microphone by name"""

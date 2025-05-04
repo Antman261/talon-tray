@@ -10,8 +10,18 @@ export type ModesChanged = {
   type: 'MODES_CHANGED';
   modes: string[];
 } & EventBase;
+export type Notified = {
+  type: 'NOTIFIED';
+  kind: 'success' | 'info' | 'alert' | 'warn';
+  msg: string;
+} & EventBase;
 
-export type TalonEvent = PhraseUttered | MicSelected | Awoken | Drowsed;
+export type TalonEvent =
+  | PhraseUttered
+  | MicSelected
+  | Awoken
+  | Drowsed
+  | Notified;
 export type EventMap = {
   PHRASE_UTTERED: PhraseUttered;
   MIC_SELECTED: MicSelected;
