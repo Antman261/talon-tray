@@ -9,6 +9,6 @@
     "main"
   ],
   "permissions": [
-    "positioner:default"
+    "window-state:default"
   ]
 }

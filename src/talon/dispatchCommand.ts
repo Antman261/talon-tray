@@ -3,7 +3,13 @@ import { Command } from '@tauri-apps/plugin-shell';
 let priorCmdPromise: Promise<unknown> = Promise.resolve();
 
 export const dispatchCommand = async (command: string) => {
-  const args = ['-c', `echo '${command}' | ~/.talon/bin/repl`];
+  const args = [
+    '-c',
+    `echo '${command.replace(
+      'actions.user.sync_talon_tray_state()',
+      ''
+    )}\nactions.user.sync_talon_tray_state()' | ~/.talon/bin/repl`,
+  ];
   const cmd = Command.create('bash', args);
   await awaitSafely(priorCmdPromise);
   const cmdPromise = cmd.execute();

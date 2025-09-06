@@ -21,6 +21,7 @@ const withWiretaps =
     return updated;
   };
 
+const getReducer = <T extends EventType>(e: T) => reducers[e] as Reducer<T>;
 export const talonState = compose(
   <T extends EventType>(s: State, e: EventMap[T]) => getReducer(e.type)(s, e),
   [withDebugLogging('reduceTalonState'), withWiretaps]
@@ -37,8 +38,6 @@ const reducers = {
   PHRASE_UTTERED: (state) => state,
   MODES_CHANGED: (state, { modes }) => ({ ...state, modes }),
 } as const satisfies { [key in EventType]: Reducer<key> };
-
-const getReducer = <T extends EventType>(e: T) => reducers[e] as Reducer<T>;
 
 const wiretaps = {
   MIC_SELECTED: new Set<Listener<'MIC_SELECTED'>>(),

@@ -19,6 +19,9 @@
         "decorations": false,
         "alwaysOnTop": true,
         "transparent": true,
+        "acceptFirstMouse": true,
+        "visibleOnAllWorkspaces": true,
+        "shadow": false,
         "url": "/index.html"
       },
       {
@@ -29,6 +32,7 @@
         "decorations": false,
         "alwaysOnTop": true,
         "transparent": true,
+        "shadow": false,
         "url": "/command-history.html"
       }
     ],
